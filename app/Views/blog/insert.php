@@ -22,6 +22,14 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="detail"></textarea>
         </div>
         <div class="form-group">
+            <select class="form-control form-control-sm" name='type'>
+                <?php foreach ($type as $key) : ?>
+                    <option value="<?= $key['t_id'] ?>"><?= $key['t_name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="form-group">
             <button type="submit" class="btn btn-primary text-right">ADD</button>
         </div>
     </form>

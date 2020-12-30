@@ -39,6 +39,7 @@ class Pages extends BaseController
         echo view('templates/footer');
     }
 
+    
     //--------------------------------------------------------------------
 
 }

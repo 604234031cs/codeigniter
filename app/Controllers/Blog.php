@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BlogModel;
+use App\Models\TypeModel;
 
 class Blog extends BaseController
 {
@@ -21,9 +22,6 @@ class Blog extends BaseController
         echo view('blog/post');
         echo view('templates/footer');
 
-
-
-
         // echo  $data['post']['t_name'];
     }
 
@@ -32,16 +30,19 @@ class Blog extends BaseController
         helper('form');
         $model = new BlogModel();
 
-        if (!$this->validate(['name' => 'required', 'price' => 'required', 'img' => 'required', 'detail' => 'required'])) {
+        $model2 = new TypeModel();
+        $data['type'] = $model2->getType();
+        if (!$this->validate(['name' => 'required', 'price' => 'required', 'img' => 'required', 'detail' => 'required', 'type' => 'required'])) {
             echo view('templates/header');
-            echo view('blog/insert');
+            echo view('blog/insert', $data);
             echo view('templates/footer');
         } else {
             $model->save([
                 'p_name' => $this->request->getVar('name'),
                 'p_price' => $this->request->getVar('price'),
                 'p_img' => $this->request->getVar('img'),
-                'p_detail' => $this->request->getVar('detail')
+                'p_detail' => $this->request->getVar('detail'),
+                't_id' => $this->request->getVar('type')
             ]);
 
             $session = \Config\Services::session();
@@ -49,6 +50,15 @@ class Blog extends BaseController
 
             return redirect()->to('/');
         }
+    }
+
+
+
+    public function delProduct($id = null)
+    {
+        $model = new BlogModel();
+        $data['user'] = $model->where('id', $id)->delete($id);
+        return $this->response->redirect(site_url('/'));
     }
 
     //--------------------------------------------------------------------
